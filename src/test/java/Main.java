@@ -4,11 +4,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.assertj.core.api.Assertions; //adding assertions library
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration; //to add wait/timeouts etc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Main {
     private static WebDriver driver;
     String sut = "https://automationintesting.com/selenium/testpage/";
@@ -29,10 +31,28 @@ public class Main {
     }
 
     @Test
+    @Order(1)
     public void openPage(){
         driver.get(sut);
         String expectedUrl = "https://automationintesting.com/selenium/testpage/";
         String currentUrl = driver.getCurrentUrl();
         Assertions.assertThat(currentUrl).isEqualTo(expectedUrl);
     }
+
+    @Test
+    @Order(2)
+    public void textField(){
+        String sendText = "CHECKING TEXT AREA";
+        driver.get(sut);
+        WebElement field = driver.findElement(By.tagName("textarea"));
+        new Actions(driver).scrollToElement(field).perform();
+        field.click();
+        field.clear();
+        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
+        field.sendKeys(sendText);
+        System.out.println(field.getAttribute("value"));
+        Assertions.assertThat(sendText).isEqualTo(field.getAttribute("value"));
+    }
+
+
 }
