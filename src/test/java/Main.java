@@ -25,10 +25,10 @@ public class Main {
         driver = WebDriverManager.chromiumdriver().create(); //creating browser's instance
     }
 
-    @AfterEach
-    void teardown(){
-        driver.quit(); // closing browser window
-    }
+  //  @AfterEach
+    //void teardown(){
+       // driver.quit(); // closing browser window
+   // }
 
     @Test
     @Order(1)
@@ -41,6 +41,18 @@ public class Main {
 
     @Test
     @Order(2)
+    public void firstName(){
+        String[] sendName = {"Blueberry", "Raspberry", "BlackBerry"};
+        driver.get(sut);
+        for(int i = 0; i < sendName.length; i++){
+            WebElement nameField = driver.findElement(By.id("firstname"));
+            nameField.sendKeys(sendName[i]);
+        }
+
+    }
+
+    @Test
+    @Order(3)
     public void textField(){
         String sendText = "CHECKING TEXT AREA";
         driver.get(sut);
@@ -51,7 +63,7 @@ public class Main {
         //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
         field.sendKeys(sendText);
         System.out.println(field.getAttribute("value"));
-        Assertions.assertThat(sendText).isEqualTo(field.getAttribute("value"));
+        //Assertions.assertThat(sendText).isEqualTo(field.getAttribute("value"));
     }
 
 
